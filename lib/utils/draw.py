@@ -102,21 +102,34 @@ def show_value_function(V, title="Value Function"):
     plot_surface(X, Y, Z_ace, "{} (Usable Ace)".format(title))
 
 
-def show_policy_black(V):
+def show_policy_black(policy,V):
     min_x = min(k[0] for k in V.keys())
     max_x = max(k[0] for k in V.keys())
     min_y = min(k[1] for k in V.keys())
     max_y = max(k[1] for k in V.keys())
-    print(min_x, min_y, max_x, max_y)
+
 
     data = np.zeros( (max_x+1, max_y+1), dtype=np.float32)
 
     for i in range(min_x, max_x + 1):
         for j in range(min_y, max_y + 1):
             state = tuple([i,j,False])
-            data[i][j] =V[state]
-    fig, ax = plt.subplots(figsize=(max_x+1, max_y+1))
+            actions = policy(state)
+            data[i][j] = np.argmax(actions)
 
-    cax = ax.matshow(data)
+    row_s ,row_e = min_x,max_x
+    col_s ,col_e = min_y,max_y
+
+    sub_max = data[row_s:row_e+1, col_s:col_e+1]
+    print(sub_max)
+    # 设置颜色
+    colors = [(0, 'white'), (1, 'blue')]
+    #
+    plt.imshow(sub_max, cmap='Greens')
+
+    # 设置刻度
+    plt.xticks(ticks=np.arange(sub_max.shape[1]), labels=np.arange(col_s, col_e + 1))
+    plt.yticks(ticks=np.arange(sub_max.shape[0]), labels=np.arange(row_s, row_e + 1))
+
     # 显示图像
     plt.show()

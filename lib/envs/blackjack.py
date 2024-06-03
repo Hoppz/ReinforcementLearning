@@ -82,6 +82,7 @@ class BlackjackEnv(object):
     def step(self, action):
         return self._step(action)
 
+
     def _reset(self):
         self.dealer = draw_hand()
         self.player = draw_hand()
@@ -116,3 +117,9 @@ class BlackjackEnv(object):
     # 自己的手牌和，对手的第一张牌，是否有可用的 A
     def _get_obs(self):
         return (sum_hand(self.player), self.dealer[0], usable_ace(self.player))
+
+    # 为了满足 MC exploring starts 的条件，按给定的 player, dealer,
+    def set_reset(self,player,dealer):
+        self.player = player
+        self.dealer = dealer
+        return self._get_obs()
