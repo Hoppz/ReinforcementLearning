@@ -102,7 +102,7 @@ def show_value_function(V, title="Value Function"):
     plot_surface(X, Y, Z_ace, "{} (Usable Ace)".format(title))
 
 
-def show_policy_black(policy,V):
+def show_policy_black(policy,V,ace: bool=False):
     min_x = min(k[0] for k in V.keys())
     max_x = max(k[0] for k in V.keys())
     min_y = min(k[1] for k in V.keys())
@@ -113,7 +113,7 @@ def show_policy_black(policy,V):
 
     for i in range(min_x, max_x + 1):
         for j in range(min_y, max_y + 1):
-            state = tuple([i,j,False])
+            state = tuple([i,j,ace])
             actions = policy(state)
             data[i][j] = np.argmax(actions)
 
@@ -130,6 +130,13 @@ def show_policy_black(policy,V):
     # 设置刻度
     plt.xticks(ticks=np.arange(sub_max.shape[1]), labels=np.arange(col_s, col_e + 1))
     plt.yticks(ticks=np.arange(sub_max.shape[0]), labels=np.arange(row_s, row_e + 1))
+
+    plt.ylabel('Player Sum')
+    plt.xlabel('Dealer Showing')
+    if ace:
+        plt.title('Policy Black (Usable Ace)')
+    else:
+        plt.title('Policy Black (No Usable Ace)')
 
     # 显示图像
     plt.show()
