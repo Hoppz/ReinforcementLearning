@@ -100,3 +100,23 @@ def show_value_function(V, title="Value Function"):
 
     plot_surface(X, Y, Z_noace, "{} (No Usable Ace)".format(title))
     plot_surface(X, Y, Z_ace, "{} (Usable Ace)".format(title))
+
+
+def show_policy_black(V):
+    min_x = min(k[0] for k in V.keys())
+    max_x = max(k[0] for k in V.keys())
+    min_y = min(k[1] for k in V.keys())
+    max_y = max(k[1] for k in V.keys())
+    print(min_x, min_y, max_x, max_y)
+
+    data = np.zeros( (max_x+1, max_y+1), dtype=np.float32)
+
+    for i in range(min_x, max_x + 1):
+        for j in range(min_y, max_y + 1):
+            state = tuple([i,j,False])
+            data[i][j] =V[state]
+    fig, ax = plt.subplots(figsize=(max_x+1, max_y+1))
+
+    cax = ax.matshow(data)
+    # 显示图像
+    plt.show()
