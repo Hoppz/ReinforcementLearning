@@ -26,7 +26,7 @@ def is_valid(grid: np.ndarray) -> bool:
                     continue
                 if grid[r_new][c_new] > 0:
                     return True
-                if grid[r_new][c_new] == 0:
+                if grid[r_new][c_new] == -1:
                     frontier.append((r_new, c_new))
     return False
 
@@ -36,9 +36,7 @@ def generate_random_map(
         size: int = 5, p: float = 0.5, punish: int = -1, seed: int = None
 ) -> np.array:
     valid = False
-    grid = np.zeros((size, size))
-    # p -> -1
-    # p -> 0
+    grid = np.full((size, size), -1)
     p = [1 - p, p]
 
     if seed is not None:
@@ -49,17 +47,17 @@ def generate_random_map(
         # generrate
         for i in range(size):
             for j in range(size):
-                grid[i, j] = np.random.choice([0, punish], p=p)
+                grid[i, j] = np.random.choice([-1, punish], p=p)
 
-        grid[0][0] = 0
-        grid[-1][-1] = 1
+        grid[0][0] = -1
+        grid[0][-1] = 1
         valid = is_valid(grid)
     return grid
 
 
 class Env(object):
 
-    def __init__(self, shape: List, punish: int = -1, seed: int = None, p: float = 0.5):
+    def __init__(self, shape: List, punish: int = -10, seed: int = None, p: float = 0.5):
         super(Env, self).__init__()
         self.s = None
         self.nrow, self.ncol = nrow, ncol = shape
@@ -82,7 +80,7 @@ class Env(object):
             if check_in_world(newrow, newcol):
                 return newrow, newcol, self.grid[newrow][newcol]
             else:
-                return row, col, 0
+                return row, col, -1
 
         def check_in_world(row, col):
             if row < 0 or row >= self.nrow or col < 0 or col >= self.ncol:

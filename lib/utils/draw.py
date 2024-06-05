@@ -11,6 +11,7 @@ plt.rcParams['axes.unicode_minus'] = False
 
 
 def show_grid(env, data=None):
+    plt.style.use('default')
     fig, ax = plt.subplots(figsize=(env.ncol, env.nrow))
     # 设置颜色
     colors = [(0, 'red'), (0.5, 'white'), (1, 'yellow')]
@@ -34,6 +35,7 @@ def show_grid(env, data=None):
 
 
 def show_policy(env, policy):
+    plt.style.use('default')
     fig, ax = plt.subplots(figsize=(env.ncol, env.nrow))
     # 设置颜色
     colors = [(0, 'red'), (0.5, 'white'), (1, 'yellow')]
@@ -140,3 +142,27 @@ def show_policy_black(policy,V,ace: bool=False):
 
     # 显示图像
     plt.show()
+
+
+def draw_line(stats):
+    plt.style.use('ggplot')
+    # Plot the episode length over time
+    fig1 = plt.figure(figsize=(10, 5))
+    plt.plot(stats['steps'])
+    plt.xlabel("Episode")
+    plt.ylabel("Episode Length")
+    plt.title("Episode Length over Time")
+    plt.show(fig1)
+
+    # Plot the episode reward over time
+    fig2 = plt.figure(figsize=(10, 5))
+    plt.plot(stats['rewards'])
+    plt.xlabel("Episode")
+    plt.ylabel("Episode Reward")
+    plt.title("Episode Reward over Time")
+    plt.show(fig2)
+
+
+
+
+
