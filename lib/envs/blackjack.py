@@ -57,7 +57,7 @@ def _seed(seed):
 class BlackjackEnv(object):
     """
         args:
-            action_space: 可以做的操作，1. 要牌， 2.停牌
+            action_space: 可以做的操作，1. 要牌， 0.停牌
             observation_space:
                             1. 自己手牌点数和
                             2. 对手显示出来的一张牌的和
