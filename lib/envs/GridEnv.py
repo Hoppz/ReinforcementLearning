@@ -109,6 +109,6 @@ class Env(object):
         return int(self.s)
 
     def step(self, action):
-        next_state, reward, terminated = self.P[self.s][action]
+        next_state, reward, terminated = self.P[self.s][action][0]
         self.s = next_state
         return next_state, reward, terminated
