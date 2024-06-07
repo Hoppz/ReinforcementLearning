@@ -144,11 +144,16 @@ def show_policy_black(policy,V,ace: bool=False):
     plt.show()
 
 
-def draw_line(stats):
+def draw_line(stats,num=None):
+    if num is not None:
+        num = int(-1*num)
     plt.style.use('ggplot')
     # Plot the episode length over time
     fig1 = plt.figure(figsize=(10, 5))
-    plt.plot(stats['steps'])
+    if num is None:
+        plt.plot(stats['steps'])
+    else:
+        plt.plot(stats['steps'][num:])
     plt.xlabel("Episode")
     plt.ylabel("Episode Length")
     plt.title("Episode Length over Time")
@@ -156,7 +161,10 @@ def draw_line(stats):
 
     # Plot the episode reward over time
     fig2 = plt.figure(figsize=(10, 5))
-    plt.plot(stats['rewards'])
+    if num is None:
+        plt.plot(stats['rewards'])
+    else:
+        plt.plot(stats['rewards'][num:])
     plt.xlabel("Episode")
     plt.ylabel("Episode Reward")
     plt.title("Episode Reward over Time")
