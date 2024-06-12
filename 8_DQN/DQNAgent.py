@@ -44,11 +44,12 @@ class DQNAgent(object):
         state = torch.tensor(state, dtype=torch.float).to(device)
         return self.policy_net(state).argmax().item()
 
-    def update_action(self, state, i_episode, num_episode):
-        explore_frac = 0.3
+    def get_action(self, state, i_episode, num_episode):
+        explore_frac = 0.1
         epsilon = lambda i: 1 - 0.99 * min(1, i / (num_episode * explore_frac))
 
         eps = epsilon(i_episode)
+        # eps = 0.01
         if np.random.rand() <= eps:
             return np.random.randint(self.action_size)
         else:
